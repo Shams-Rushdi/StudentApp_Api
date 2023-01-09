@@ -32,6 +32,10 @@ return new class extends Migration
             $table->string('user_id');
             $table->string('user_name');
             $table->string('user_password');
+            $table->string('official_transcript');
+            $table->string('transcript_degree_english');
+            $table->string('current_cash');
+            $table->date('bank_solvency_date');
             $table->date('stored_on_table_date');
             $table->timestamps();
         });
