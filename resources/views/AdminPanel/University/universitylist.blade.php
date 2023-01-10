@@ -22,6 +22,7 @@
                                             <thead class="text-uppercase">
                                                 <tr>
                                                     
+                                                    <th scope="col">University Image</th>
                                                     <th scope="col">University Name</th>
                                                     <th scope="col">Deadline</th>
                                                     <th scope="col">Country</th>
@@ -33,7 +34,7 @@
                                             <tbody>
                                             @foreach($universities as $university)
                                                 <tr>
-                                                    
+                                                    <td ><img style="width:150px; height:100px;" src="{{ asset('images/university/'.$university->university_image)}}" alt=""></td>
                                                     <td>{{$university->university_name}}</td>
                                                     <td>{{$university->deadline}}</td>
                                                     <td>{{$university->university_country}}</td>

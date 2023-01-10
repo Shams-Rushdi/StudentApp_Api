@@ -130,7 +130,7 @@ class AdminController extends Controller
             $image->move('images/admin',$imageName);
         }
 
-        //dd($request->all());
+        dd($request->all());
         $admin = new Admin();
         $admin->first_name = $request->fname;
         $admin->last_name = $request->lname;

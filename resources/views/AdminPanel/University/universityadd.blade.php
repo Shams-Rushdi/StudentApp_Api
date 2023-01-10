@@ -8,7 +8,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                     
-                                    <form class="form-valide" action="{{route('university.store')}}" method="post">
+                                    <form class="form-valide" action="{{route('university.store')}}" method="post" enctype="multipart/form-data">
                                     {{@csrf_field()}}
                                         <h4 class="header-title">Add University</h4>
                                         <div class="form-group">
@@ -108,6 +108,20 @@
                                         <div class="form-group">
                                             <label for="example-datetime-local-input" class="col-form-label">Application Fee</label>
                                             <input class="form-control" type="text" name="application_fee" value="" id="">
+                                        </div>
+
+
+                                        
+                                        <label class="col-form-label">Image</label>
+                                        <div class="input-group mb-3">
+                                            
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Upload</span>
+                                            </div>
+                                            <div class="custom-file">
+                                                <input type="file" name="image" class="custom-file-input" id="inputGroupFile01">
+                                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                            </div>
                                         </div>
 
                                         <button class="btn btn-primary" type="submit">Submit</button>

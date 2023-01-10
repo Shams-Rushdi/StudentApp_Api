@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Session;
+use Auth;
 use App\Models\University;
 use App\Models\Degree;
 use App\Models\Admin;
@@ -9,6 +10,7 @@ use App\Models\Major;
 use App\Models\EnglishTest;
 use App\Models\Otherenglishtest;
 use Illuminate\Http\Request;
+use File;
 
 class UniversityController extends Controller
 {
@@ -65,13 +67,20 @@ class UniversityController extends Controller
         //     $filename = $request->file('image')->hashName();
         //     $data['image']  = 'storage/images/Category/' . $filename;
         // };
-        $un = new University();
-        
+        $imageName= '';
+        if($image = $request->file('image')){
+            $imageName = time().'-'.uniqid().'.'.$image->getClientOriginalExtension();
+            $image->move('images/university',$imageName);
+        }
         //dd($request->all());
+        
+        //dd($request->file('university_image'));
+        $un = new University();
         $un->university_name = $request->university_name;
         $un->university_address = $request->university_address;
         $un->university_city = $request->university_city;
         $un->university_country = $request->university_country;
+        $un->university_image = $imageName;
         $un->deadline = $request->deadline;
         $un->degree = json_encode($request->degree_);
         $un->major = json_encode($request->major_);
@@ -125,6 +134,7 @@ class UniversityController extends Controller
 
       
         // ]);
+        
     
                 $university->fill($request->post())->save();
                 return redirect()->route('university.index')->with('success','university has been updated successfully');

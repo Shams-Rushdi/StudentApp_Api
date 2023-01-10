@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('university_address');
             $table->string('university_city');
             $table->string('university_country');
+            $table->string('university_image');
             $table->string('deadline');
             $table->string('degree');
             $table->string('major');

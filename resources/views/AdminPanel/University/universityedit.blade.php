@@ -7,7 +7,7 @@
                             <div class="col-12 mt-5">
                                 <div class="card">
                                     <div class="card-body">
-                                    <form class="form-valide" action="{{route('university.update',$university->id)}}" method="post">
+                                    <form class="form-valide" action="{{route('university.update',$university->id)}}" method="post" enctype="multipart/form-data">
                                     {{@csrf_field()}}                   
                                         @method('PUT')
                                     
