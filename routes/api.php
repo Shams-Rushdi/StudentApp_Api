@@ -23,7 +23,7 @@ use App\Http\Controllers\ApiOtherController;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
-Route::post('/student/signUp1',[StudentApiController::class,'SignUp1']);
+Route::put('student/signup/{id}',[AuthController::class,'signup2']);
 //Route::post('/student/signup2',[StudentApiController::class,'SignUp1']);
 //Route::post('logout', [AuthController::class, 'logout']);
 Route::group(['middleware' =>'auth:sanctum'], function () {

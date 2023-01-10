@@ -54,7 +54,8 @@ class StudentApiController extends BaseController
             return response()->json($studentedit,200);
         }
     
-    public function StudentUpdate(Request $req,$id){   ///Update AND Details
+    public function StudentUpdate(Request $req,$id){  
+        dd($req->all()); ///Update AND Details
             $validator = Validator::make($req->all(), [
                 'user_name' => 'required',
                 'dob' => 'required',

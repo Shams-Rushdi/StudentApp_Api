@@ -22,19 +22,47 @@ use Validator;
 class AuthController extends BaseController
 {
     public function register (Request $request) {
+        dd($request->all());
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'gender' => 'required|string|max:255',
-            'dob' => 'required|date|before:today',
+            'email' => 'required|string|email|max:255|unique:users',
             'mobile_number' => 'required',
             'password' => 'required|min:6',
             'password_confirmation' => 'required|same:password|min:6',
-            'email' => 'required|string|email|max:255|unique:users',
+        ]);
+        if ($validator->fails())
+        {
+            return $this->sendError('Validatoin Error',$validator->errors());
+        }
+        $email = $request->email;
+        $request['password']=Hash::make($request['password']);
+        $user = User::create($request->toArray());
+        $id = User::where('email', $email)->value('id');
+        $id_Stu = Student::where('email', $email)->value('id');
+        $student = Student::create([
+            'first_name' => strtoupper($request->first_name),
+            'last_name' =>  strtoupper($request->last_name),
+            'user_password' => $request->password,
+            'mobile_number' => $request->mobile_number,
+            'email' => $request->email,
+            'user_id' => $id,
+            ]);
+            $id_Stu = Student::where('email', $email)->value('id');
+            //'student_id' => $id_Stu,
+        $success['token'] = $user->createToken('apiToken')->plainTextToken;
+        $success['name'] = $student->first_name.' '.$student->last_name;
+        $success['id'] = $student->id;
+        //$success['email'] = $student->email;
+        return $this->sendResponse($success,'User Registrated Successfully');
+    }
+    public function signup2 (Request $request,$id) {
+        //dd($request->all());
+        $validator = Validator::make($request->all(), [
             //2nd Page
             'user_name' => 'required',
             'dob' => 'required|date|before:today',
-            'gender' => 'required',
+            'gender' => 'required|string|max:255',
             'address1' => 'required',
             'address2' => 'required',
             'zipcode' => 'required',
@@ -72,32 +100,29 @@ class AuthController extends BaseController
             'publication/Certificate' => 'required',
             'date_actived' => 'required',
             'search_ability' => 'required',
-
-
         ]);
+
+
         if ($validator->fails())
         {
             return $this->sendError('Validatoin Error',$validator->errors());
         }
-        $email = $request->email;
-        $request['password']=Hash::make($request['password']);
-        $user = User::create($request->toArray());
-        $id = User::where('email', $email)->value('id');
-        $id_Stu = Student::where('email', $email)->value('id');
-        $student = Student::create([
-            'first_name' => strtoupper($request->first_name),
-            'last_name' =>  strtoupper($request->last_name),
-            'user_name' => $request->user_name,
-            'user_password' => $request->password,
-            'official_transcript' => $request->official_transcript,
-            'transcript_degree_english' => $request->transcript_degree_english,
-            'current_cash' => $request->current_cash,
-            'bank_solvency_date' => $request->bank_solvency_date,
-            'mobile_number' => $request->mobile_number,
-            'email' => $request->email,
-            'user_id' => $id,
-            ]);
-            $id_Stu = Student::where('email', $email)->value('id');
+       
+            $student = Student::find($id);
+            $student->user_name = $request->user_name;
+            $student->official_transcript = $request->official_transcript;
+            $student->transcript_degree_english = $request->transcript_degree_english;
+            $student->current_cash = $request->current_cash;
+            $student->bank_solvency_date = $request->bank_solvency_date;
+
+        // $student = Student::create([
+        //     'user_name' => $request->user_name,
+        //     'official_transcript' => $request->official_transcript,
+        //     'transcript_degree_english' => $request->transcript_degree_english,
+        //     'current_cash' => $request->current_cash,
+        //     'bank_solvency_date' => $request->bank_solvency_date,
+        //     ]);
+            $id_Stu = Student::where('id', $id)->value('id');
 
             $education = Education::create([
                 'degree_name' => $request->degree_name,
@@ -130,12 +155,12 @@ class AuthController extends BaseController
                             'student_id' => $id_Stu,
                             ]);
                          
+                            //$success['token'] = $user->createToken('apiToken')->plainTextToken;
+                            $success['name'] = $student->first_name.' '.$student->last_name;
+                            $success['id'] = $student->id;
+                            return $this->sendResponse($success,'User Registrated Successfully');
 
 
-
-        $success['token'] = $user->createToken('apiToken')->plainTextToken;
-        $success['name'] = $student->first_name.' '.$student->last_name;
-        return $this->sendResponse($success,'User Registrated Successfully');
     }
 
     public function login (Request $request) {
