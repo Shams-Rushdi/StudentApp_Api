@@ -22,7 +22,6 @@ use Validator;
 class AuthController extends BaseController
 {
     public function register (Request $request) {
-        dd($request->all());
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -123,7 +122,6 @@ class AuthController extends BaseController
         //     'bank_solvency_date' => $request->bank_solvency_date,
         //     ]);
             $id_Stu = Student::where('id', $id)->value('id');
-
             $education = Education::create([
                 'degree_name' => $request->degree_name,
                 'institution_name' =>  $request->institution,

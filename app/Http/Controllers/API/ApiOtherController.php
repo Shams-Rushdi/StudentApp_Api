@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
+
+use App\Http\Controllers\Controller;
 use App\Models\University;
 use App\Models\Degree;
 use App\Models\Scholarship;
@@ -32,7 +34,7 @@ class ApiOtherController extends Controller
         return response()->json($otherenglishtests,200);
     }
     public function university(){
-        $university = University::all();
-        return response()->json($universitys,200);
+        $university = University::latest()->get();
+        return response()->json($university,200);
     }
 }

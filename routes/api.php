@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\StudentApiController;
-use App\Http\Controllers\ApiOtherController;
+use App\Http\Controllers\API\ApiOtherController;
+use App\Http\Controllers\API\UniversityApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
