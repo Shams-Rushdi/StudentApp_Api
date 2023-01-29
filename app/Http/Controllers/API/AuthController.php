@@ -132,7 +132,7 @@ class AuthController extends BaseController
                 'student_id' => $id_Stu,
                 ]);
 
-                
+
                 $institution_name = $request->institution_name;
                 $position = $request->position;
                 $year = $request->year;
@@ -145,6 +145,10 @@ class AuthController extends BaseController
                         'student_id' => $id_Stu,
                         ]);
                 }
+
+                $publication = $request->publication;
+                $date_actived = $request->date_actived;
+                $search_ability = $request->search_ability;
  
                     $extracuricullumn = ExtraCuricullumn::create([
                         'publication/Certificate' => $request->publication,
