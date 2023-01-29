@@ -6,10 +6,12 @@ use App\Models\Admin;
 use App\Models\AdminType;
 use Illuminate\Http\Request;
 use Session;
-use Auth;
+//use Auth;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Auth;
 use File;
+
+
 class AdminController extends Controller
 {
     /**
@@ -47,19 +49,26 @@ class AdminController extends Controller
     }
 
     public function passwordUpdateSubmit(Request $request){
-       // dd($request->all());
-        if(!Hash::check($request->old_password,user()->password)){
-            //return back()->with("error", "Old Password Doesn't match!");
-            return "Old Password Doesn't match!";
+        //dd($request->all());
+       $request->validate([
+        'old_password' => 'required',
+        'password' => 'required|min:8',
+        'confirm_password' => 'required|min:8|same:password',
+    ]);
+        $hasPass = Admin:: find($request->id);
+        //dd($hasPass->password);
+        //$hashPass = auth::admin()->password;
+        if (Hash::check($request->old_password, $hasPass->password)) {
+            $hasPass->update([
+                'password' => Hash::make($request->password)
+            ]);
+            //return redirect()->route('home');
+            return back()->with("status", "Password Change");
+        } else {
+            //return "ff";
+            return back()->with("error", "Password did not matched");
         }
-
-        #Update the new Password
-        Admin::whereId($request->id)->update([
-            'password' => Hash::make($request->new_password)
-        ]);
-
-
-        }
+    }
 
 
 
@@ -151,6 +160,7 @@ class AdminController extends Controller
         $admin->joiningdate = $request->joiningdate;
         $admin->save();
         Session::flash('msg','Successfull');
+        //Auth::guard('admin')->login($admin);
         return redirect()->route('admin.index')->with('success','Company has been deleted successfully');
     }
 

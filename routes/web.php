@@ -30,7 +30,8 @@ Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('dashboa
 
 Route::get('/adminprofile/{id}',[AdminController::class,'profileUpdate'])->name('admin.profile');
 Route::post('/adminfile',[AdminController::class,'profileUpdateSubmit'])->name('admin.profile.submit');
-Route::get('/password/{id}',[AdminController::class,'passwordUpdate'])->name('admin.password');
+
+Route::get('/password',[AdminController::class,'passwordUpdate'])->name('admin.password');
 Route::post('/password',[AdminController::class,'passwordUpdateSubmit'])->name('admin.pass.submit');
 
 

@@ -14,27 +14,33 @@ use Illuminate\Http\Request;
 class ApiOtherController extends Controller
 {
     public function major(){
-        $majors = Major::all();
+        $majors = Major::latest()->get();
         return response()->json($majors,200);
     }
     public function degree(){
-        $degrees = Degree::all();
+        $degrees = Degree::latest()->get();
         return response()->json($degrees,200);
     }
     public function scholarship(){
-        $scholarships = Scholarship::all();
+        $scholarships = Scholarship::latest()->get();
         return response()->json($scholarships,200);
     }
     public function englishtest(){
-        $englishtests = EnglishTest::all();
+        $englishtests = EnglishTest::latest()->get();
         return response()->json($englishtests,200);
     }
     public function otherenglishtest(){
-        $otherenglishtests = Otherenglishtest::all();
+        $otherenglishtests = Otherenglishtest::latest()->get();
         return response()->json($otherenglishtests,200);
     }
     public function university(){
-        $university = University::latest()->get();
-        return response()->json($university,200);
+        //$universitys =University::with(['scholarship', 'childs.scholarship'])->where('id', $universities->id)->get();
+        //$university = University::whereNull('id')->with('childrenUniversity','scholarship')->get();
+        //$university = University::latest()->get();
+        //$scholarships = Scholarship::whereIn('university_id', [$university->id]);
+        //$scholarships = Scholarship::with('university')->find($id);
+        //return response()->json($universitys,$scholarships,200);
+        $university = University::with('scholarships')->get();
+        return response()->json($university);
     }
 }

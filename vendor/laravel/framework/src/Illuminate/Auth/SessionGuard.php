@@ -14,6 +14,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\Auth\SupportsBasicAuth;
 use Illuminate\Contracts\Auth\UserProvider;
+use Illuminate\Contracts\Auth\AdminProvider;
 use Illuminate\Contracts\Cookie\QueueingFactory as CookieJar;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Session\Session;

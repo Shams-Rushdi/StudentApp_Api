@@ -17,6 +17,7 @@ return new class extends Migration
             $table->increments('id');
             $table->unsignedBigInteger('student_id')->nullable();
             $table->string('institution_name');
+            $table->string('position');
             $table->date('year');
             $table->timestamps();
         });

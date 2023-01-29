@@ -59,7 +59,7 @@ class AuthController extends BaseController
         //dd($request->all());
         $validator = Validator::make($request->all(), [
             //2nd Page
-            'user_name' => 'required',
+            //'user_name' => 'required',
             'dob' => 'required|date|before:today',
             'gender' => 'required|string|max:255',
             'address1' => 'required',
@@ -71,6 +71,7 @@ class AuthController extends BaseController
             'city' => 'required',
             //3rd Page
             'institution_name' => 'required',
+            'position' => 'required',
             'year' => 'required',
 
             'test_type' => 'required',
@@ -131,13 +132,20 @@ class AuthController extends BaseController
                 'student_id' => $id_Stu,
                 ]);
 
+                
+                $institution_name = $request->institution_name;
+                $position = $request->position;
+                $year = $request->year;
 
-                $employment = Employment::create([
-                    'institution_name' => $request->institution_name,
-                    'year' =>  $request->year,
-                    'student_id' => $id_Stu,
-                    ]);
-
+                for($i=0; $i<count($institution_name);$i++){
+                    $employment = Employment::create([
+                        'institution_name' => $institution_name[$i],
+                        'position' => $position[$i],
+                        'year' => $year[$i],
+                        'student_id' => $id_Stu,
+                        ]);
+                }
+ 
                     $extracuricullumn = ExtraCuricullumn::create([
                         'publication/Certificate' => $request->publication,
                         'date_actived' =>  $request->date_actived,
@@ -176,6 +184,7 @@ class AuthController extends BaseController
             if( Hash::check($request->password, $user->user_password)){
                 $success['token'] = $user->createToken('apiToken')->plainTextToken;
                 $success['name'] = $user->first_name.' '.$user->last_name;
+                $success['image'] = $user->image;
 
                 return $this->sendResponse($success,'User Logged in Successfully');
 
